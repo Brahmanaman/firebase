@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useFireBaseContext } from "./context/FireBaseContext";
+import uniqid from "uniqid";
 
 const App = () => {
   const [userData, setUserData] = useState({
@@ -8,6 +9,8 @@ const App = () => {
     password: "",
   });
 
+  const fireBaseContext = useFireBaseContext();
+
   const handleChange = (e) => {
     setUserData({
       ...userData,
@@ -15,9 +18,13 @@ const App = () => {
     });
   };
 
-  const userSignUp = (e) => {
+  const userSignUp = async (e) => {
     e.preventDefault();
-    console.log(userData);
+    await fireBaseContext.signUpUserWithEmailAndPassword(
+      userData.email,
+      userData.password
+    );
+    fireBaseContext.putData(uniqid(), userData);
   };
 
   return (

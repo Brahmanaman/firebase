@@ -26,8 +26,8 @@ export const useFireBaseContext = () => {
 };
 
 const FireBaseContext = ({ children }) => {
-  const signUpUserWithEmailAndPassword = async (username, email, password) => {
-    return createUserWithEmailAndPassword(firebaseAuth, email, password);
+  const signUpUserWithEmailAndPassword = async (email, password) => {
+    return await createUserWithEmailAndPassword(firebaseAuth, email, password);
   };
 
   const putData = (key, data) => {
