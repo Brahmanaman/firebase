@@ -72,7 +72,7 @@ const SignUp = () => {
           </div>
           <div className="flex justify-center gap-2">
             <button
-              className="bg-blue-900 py-2 px-4 w-auto rounded-md cursor-pointer active:scale-95"
+              className="bg-red-900 hover:bg-red-950 transition-colors py-2 px-4 w-auto rounded-md cursor-pointer active:scale-95"
               onClick={googleSignIn}
             >
               SignIn with Google
@@ -80,7 +80,7 @@ const SignUp = () => {
             <button
               onClick={(e) => userSignUp(e)}
               type="submit"
-              className="bg-blue-900 py-2 px-4 w-auto rounded-md cursor-pointer active:scale-95"
+              className="bg-blue-900 hover:bg-blue-950 transition-colors py-2 px-4 w-auto rounded-md cursor-pointer active:scale-95"
             >
               SignUp
             </button>
