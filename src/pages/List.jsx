@@ -1,66 +1,85 @@
-import React from "react";
+import React, { useState } from "react";
 
 const List = () => {
-  const [userData, setUserData] = useState({
-    username: "",
-    email: "",
-    password: "",
+  const [bookDetails, setBookDetails] = useState({
+    name: "",
+    isbnNumber: "",
+    price: "",
+    converPic: ""
   });
 
   const handleChange = (e) => {
-    setUserData({
-      ...userData,
+    setBookDetails({
+      ...bookDetails,
       [e.target.name]: e.target.value,
     });
   };
 
   return (
-    <div className=" h-screen w-full flex items-center justify-center">
-      <form className="flex flex-col border rounded-sm w-95 text-white p-3">
-        <h1 className="text-center text-2xl">FireBase</h1>
-        <div className="justify-center">
+    <div className="w-full flex justify-center pt-5">
+      <form className="flex flex-col w-95 text-white p-3">
+        <h1 className="text-center text-2xl">Add Book</h1>
+        <div className="justify-center mt-5">
           <div className="flex flex-col ">
-            <label htmlFor="username">UserName</label>
+            <label htmlFor="name">Name</label>
             <input
               className="border rounded-sm py-1 px-2 bg-transparent m-2 ml-0 outline-0"
               required
               type="text"
-              name="username"
-              placeholder="enter your username"
+              name="name"
+              placeholder="enter book name"
               onChange={handleChange}
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="isbn">ISBN</label>
             <input
               className="border rounded-sm py-1 px-2 bg-transparent m-2 ml-0 outline-none"
               required
-              type="email"
-              name="email"
-              placeholder="enter your email"
+              type="text"
+              name="isbn"
+              placeholder="enter ISBN Number"
               onChange={handleChange}
             />
           </div>
           <div className="flex flex-col ">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="price">Price</label>
             <input
               className="border rounded-sm py-1 px-2 bg-transparent m-2 ml-0 outline-none"
               required
-              type="password"
-              name="password"
-              placeholder="enter your password"
+              type="text"
+              name="price"
+              placeholder="enter book price"
               onChange={handleChange}
             />
           </div>
-          <div className="flex justify-center gap-2">
-            <button className="bg-red-900 hover:bg-red-950 transition-colors py-2 px-4 w-auto rounded-md cursor-pointer active:scale-95">
-              SignIn with Google
-            </button>
+          <div className="flex flex-col ">
+            <label htmlFor="price">Price</label>
+            <input
+              className="border rounded-sm py-1 px-2 bg-transparent m-2 ml-0 outline-none"
+              required
+              type="text"
+              name="price"
+              placeholder="enter book price"
+              onChange={handleChange}
+            />
+          </div>
+          <div className="flex flex-col ">
+            <label htmlFor="cover-pic">Price</label>
+            <input
+              className="border rounded-sm py-1 px-2 bg-transparent m-2 ml-0 outline-none"
+              required
+              type="file"
+              name="cover-pic"
+              onChange={handleChange}
+            />
+          </div>
+          <div className="flex justify-center gap-2 mt-5">
             <button
               type="submit"
               className="bg-blue-900 hover:bg-blue-950 transition-colors py-2 px-4 w-auto rounded-md cursor-pointer active:scale-95"
             >
-              SignUp
+              Add
             </button>
           </div>
         </div>
