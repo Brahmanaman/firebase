@@ -1,26 +1,19 @@
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
-import { firebaseAuth } from "./context/FireBaseContext";
-import { useEffect, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
+import { Routes, Route } from "react-router";
+import List from "./pages/List";
+import Home from "./pages/Home";
 
 const App = () => {
-  const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    onAuthStateChanged(firebaseAuth, (user) => {
-      if (user) {
-        setUser(user);
-      } else {
-        setUser(null);
-      }
-    });
-  }, []);
   return (
     <>
-      <div className="w-screen h-screen bg-gray-900">
-        {user ? <SignIn user={user} /> : <SignUp />}
-      </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<SignIn />} />
+        <Route path="/register" element={<SignUp />} />
+        <Route path="/add-listing" element={<List />} />
+      </Routes>
     </>
   );
 };

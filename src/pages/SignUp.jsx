@@ -27,10 +27,6 @@ const SignUp = () => {
     fireBaseContext.putData(uniqid(), userData);
   };
 
-  const googleSignIn = async () => {
-    const data = await fireBaseContext.signInWithGoogle();
-    console.log(data);
-  };
 
   return (
     <div className=" h-screen w-full flex items-center justify-center">
@@ -71,12 +67,6 @@ const SignUp = () => {
             />
           </div>
           <div className="flex justify-center gap-2">
-            <button
-              className="bg-red-900 hover:bg-red-950 transition-colors py-2 px-4 w-auto rounded-md cursor-pointer active:scale-95"
-              onClick={googleSignIn}
-            >
-              SignIn with Google
-            </button>
             <button
               onClick={(e) => userSignUp(e)}
               type="submit"

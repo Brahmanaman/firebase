@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, set } from "firebase/database";
 import {
@@ -6,6 +6,8 @@ import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -31,9 +33,24 @@ export const useFireBaseContext = () => {
 };
 
 const FireBaseContext = ({ children }) => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    onAuthStateChanged(firebaseAuth, (user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+    });
+  }, []);
+
   const signUpUserWithEmailAndPassword = async (email, password) => {
     return await createUserWithEmailAndPassword(firebaseAuth, email, password);
   };
+  const signInUserWithEmailAndPassword = async (email, password) =>{
+    return await signInWithEmailAndPassword(firebaseAuth, email, password);
+  }
 
   const putData = (key, data) => {
     set(ref(db, "users/" + key), data);
@@ -43,9 +60,11 @@ const FireBaseContext = ({ children }) => {
     return signInWithPopup(firebaseAuth, provider);
   };
 
+  const isLoggedIn = user ? true: false;
+
   return (
     <FirebaseContext.Provider
-      value={{ signUpUserWithEmailAndPassword, putData, signInWithGoogle }}
+      value={{ signUpUserWithEmailAndPassword, signInUserWithEmailAndPassword, putData, signInWithGoogle, isLoggedIn }}
     >
       {children}
     </FirebaseContext.Provider>
