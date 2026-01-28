@@ -9,7 +9,7 @@ import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
 } from "firebase/auth";
-import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs, doc, getDoc } from "firebase/firestore";
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const firebaseConfig = {
@@ -92,10 +92,15 @@ const FireBaseContext = ({ children }) => {
     return getDownloadURL(storageRef(storage, path));
   }
 
+  const getBookById = async (id) => {
+    const docRef = doc(firestore, "books", id);
+    const result = await getDoc(docRef);
+    return result;
+  }
 
   return (
     <FirebaseContext.Provider
-      value={{ signUpUserWithEmailAndPassword, signInUserWithEmailAndPassword, putData, signInWithGoogle, isLoggedIn, handleCreateNewListing, listAllBooks, getImageURL }}
+      value={{ signUpUserWithEmailAndPassword, signInUserWithEmailAndPassword, putData, signInWithGoogle, isLoggedIn, handleCreateNewListing, listAllBooks, getImageURL, getBookById }}
     >
       {children}
     </FirebaseContext.Provider>

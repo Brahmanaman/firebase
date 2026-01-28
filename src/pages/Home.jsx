@@ -11,9 +11,11 @@ const Home = () => {
     const fetchBooks = async () => {
       try {
         const querySnapShot = await firebase.listAllBooks();
-        querySnapShot.forEach((doc) => {
-          setBooks([{ id: doc.id, ...doc.data() }]);
-        });
+        setBooks(
+          querySnapShot.docs.map(doc => ({
+            id: doc.id, ...doc.data()
+          }))
+        )
       } catch (error) {
         console.error("Error fetching books:", error);
       }
@@ -23,17 +25,20 @@ const Home = () => {
 
   return (
     <>
-      <div>
-        <h1>List All Books</h1>
-        {
-          books.map((book) => {
+      <div className="mx-auto px-4 py-6">
+        <h1 className="text-3xl font-bold text-white mb-6 text-center">
+          List All Books
+        </h1 >
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {books.map((book) => {
             return (
               <Card key={book.id} book={book} />
             )
-          })
-        }
-
-      </div>
+          }
+          )}
+        </div>
+      </div >
     </>
   );
 };
