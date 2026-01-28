@@ -4,15 +4,16 @@ import { useFireBaseContext } from "../context/FireBaseContext";
 const List = () => {
   const [bookDetails, setBookDetails] = useState({
     name: "",
-    isbnNumber: "",
+    isbn: "",
     price: "",
-    converPic: ""
+    coverPic: ""
   });
 
   const handleChange = (e) => {
+    const { name, value, files } = e.target;
     setBookDetails({
       ...bookDetails,
-      [e.target.name]: e.target.value,
+      [name]: files ? files[0] : value,
     });
   };
 
@@ -20,13 +21,22 @@ const List = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await fireBaseContext.handleCreateNewListing(bookDetails.name, bookDetails.isbnNumber, bookDetails.price, bookDetails.converPic);
-    setBookDetails({
-      name: "",
-      isbnNumber: "",
-      price: "",
-      converPic: ""
-    })
+    try {
+      const response = await fireBaseContext.handleCreateNewListing(bookDetails.name, bookDetails.isbn, bookDetails.price, bookDetails.coverPic);
+      console.log(response)
+    }
+    catch (error) {
+      console.error("Error in listing books:", error);
+    }
+    finally {
+      setBookDetails({
+        name: "",
+        isbn: "",
+        price: "",
+        coverPic: ""
+      })
+    }
+
   }
 
   return (
@@ -68,12 +78,12 @@ const List = () => {
             />
           </div>
           <div className="flex flex-col ">
-            <label htmlFor="cover-pic">Cover Pic</label>
+            <label htmlFor="coverPic">Cover Pic</label>
             <input
               className="border rounded-sm py-1 px-2 bg-transparent m-2 ml-0 outline-none"
               required
               type="file"
-              name="cover-pic"
+              name="coverPic"
               onChange={handleChange}
             />
           </div>

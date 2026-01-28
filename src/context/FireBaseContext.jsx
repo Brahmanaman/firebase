@@ -9,8 +9,8 @@ import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
 } from "firebase/auth";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
-import { getStorage, ref as storageRef, uploadBytes } from "firebase/storage";
+import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAND3w_AkzhlPYKMWrF8nAbM64u_DcTJ2A",
@@ -65,10 +65,13 @@ const FireBaseContext = ({ children }) => {
   };
 
   const isLoggedIn = user ? true : false;
-  console.log(user)
   const handleCreateNewListing = async (name, isbn, price, file) => {
-    const imageRef = storageRef(storage, `uploads/images/${Date.now()}-${file}`)
+    debugger
+    //saving image in storage 
+    const imageRef = storageRef(storage, `uploads/images/${Date.now()}-${file.name}`)
     const uploadResult = await uploadBytes(imageRef, file);
+
+    //save book data into firestore
     return await addDoc(collection(firestore, 'books'), {
       name,
       isbn,
@@ -79,12 +82,20 @@ const FireBaseContext = ({ children }) => {
       displayName: user.displayName,
       userPicURL: user.photoURL
     })
-
   }
+
+  const listAllBooks = async () => {
+    return await getDocs(collection(firestore, "books"));
+  }
+
+  const getImageURL = (path) => {
+    return getDownloadURL(storageRef(storage, path));
+  }
+
 
   return (
     <FirebaseContext.Provider
-      value={{ signUpUserWithEmailAndPassword, signInUserWithEmailAndPassword, putData, signInWithGoogle, isLoggedIn, handleCreateNewListing }}
+      value={{ signUpUserWithEmailAndPassword, signInUserWithEmailAndPassword, putData, signInWithGoogle, isLoggedIn, handleCreateNewListing, listAllBooks, getImageURL }}
     >
       {children}
     </FirebaseContext.Provider>
