@@ -4,6 +4,7 @@ import { useFireBaseContext } from "../context/FireBaseContext";
 
 const BookDetails = () => {
     const [bookData, setBookData] = useState(null);
+    const [qty, setQty] = useState(1);
     const [url, setURL] = useState(null);
     const params = useParams();
     const firebaseContext = useFireBaseContext();
@@ -18,6 +19,15 @@ const BookDetails = () => {
         getBookData();
 
     }, [params.bookId])
+
+    const placeOrder = async () => {
+        try {
+            const response = await firebaseContext.placeOrder(params.bookId, qty);
+        }
+        catch (error) {
+            console.error("error in placeing order", error);
+        }
+    }
     if (bookData == null) return <h1 className='text-white'>Loading...</h1>
     return (
         <div className='max-w-[80%] mt-20 mx-auto text-white flex items-center justify-center gap-24'>
@@ -33,7 +43,10 @@ const BookDetails = () => {
                 <p className='text-sm font-thin'>Email: {bookData.userEmail}</p>
                 <p className='text-sm font-thin'>Name: {bookData.displayName}</p>
                 <img className='rounded-full h-10 w-10' src={bookData.userPicURL} alt="" />
-                <button className='border-none outline-none bg-blue-700 py-2 px-4 rounded-md hover:bg-blue-800 transition-colors active:scale-95 mt-10'>Buy Now</button>
+                <p className='mt-5'> Qty: <input type="number" value={qty} className='border-none outline-none bg-white text-gray-900 w-15 rounded-md py-1 px-2' onChange={(e) => setQty(Number(e.target.value))} /></p>
+                <button className='border-none outline-none bg-blue-700 py-2 px-4 rounded-md hover:bg-blue-800 transition-colors active:scale-95 mt-8'
+                    onClick={placeOrder}
+                >Buy Now</button>
             </div>
 
         </div>

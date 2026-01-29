@@ -66,7 +66,6 @@ const FireBaseContext = ({ children }) => {
 
   const isLoggedIn = user ? true : false;
   const handleCreateNewListing = async (name, isbn, price, file) => {
-    debugger
     //saving image in storage 
     const imageRef = storageRef(storage, `uploads/images/${Date.now()}-${file.name}`)
     const uploadResult = await uploadBytes(imageRef, file);
@@ -98,9 +97,21 @@ const FireBaseContext = ({ children }) => {
     return result;
   }
 
+  console.log(user)
+  const placeOrder = async (bookId, qty) => {
+    const collectionRef = collection(firestore, "books", bookId, "orders");
+    const result = await addDoc(collectionRef, {
+      userId: user.uid,
+      userEmail: user.email,
+      displayName: user.displayName,
+      userPicURL: user.photoURL,
+      qty: qty
+    });
+    return result;
+  }
   return (
     <FirebaseContext.Provider
-      value={{ signUpUserWithEmailAndPassword, signInUserWithEmailAndPassword, putData, signInWithGoogle, isLoggedIn, handleCreateNewListing, listAllBooks, getImageURL, getBookById }}
+      value={{ signUpUserWithEmailAndPassword, signInUserWithEmailAndPassword, putData, signInWithGoogle, isLoggedIn, handleCreateNewListing, listAllBooks, getImageURL, getBookById, placeOrder }}
     >
       {children}
     </FirebaseContext.Provider>
