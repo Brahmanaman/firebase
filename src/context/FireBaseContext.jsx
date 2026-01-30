@@ -14,15 +14,20 @@ import { getFirestore, collection, addDoc, getDocs, doc, getDoc, where } from "f
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAND3w_AkzhlPYKMWrF8nAbM64u_DcTJ2A",
-  authDomain: "bookify-firebase-6ad47.firebaseapp.com",
-  projectId: "bookify-firebase-6ad47",
-  storageBucket: "bookify-firebase-6ad47.firebasestorage.app",
-  messagingSenderId: "140840174182",
-  appId: "1:140840174182:web:56fba88bb05774a387a3a7",
-  measurementId: "G-SMYB1EVRXF",
-  databaseURL: "https://fir-64a8a-default-rtdb.firebaseio.com/",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
+  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
 };
+
+console.log(firebaseConfig)
+if (!import.meta.env.VITE_FIREBASE_API_KEY) {
+  console.warn("Missing VITE_FIREBASE_* environment variables. Create a .env.local file from .env.example and add your Firebase keys.");
+}
 
 const app = initializeApp(firebaseConfig);
 export const firebaseAuth = getAuth(app);
