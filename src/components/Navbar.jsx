@@ -10,35 +10,37 @@ const Navbar = () => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="text-white flex items-center justify-between bg-blue-950 px-5 py-2">
+    <nav className="flex items-center justify-between bg-slate-950 px-6 py-3 text-slate-200 border-b border-slate-800 shadow-sm">
       {isLoggedIn ? (
         <>
-
-          <div className="flex items-center gap-5">
-            <ul className="flex items-center cursor-pointer gap-5">
-              <Link to="/">Home</Link>
-              <Link to="/book/list">Add Listing</Link>
-              <Link to="/book/orders">View Orders</Link>
+          <div className="flex items-center gap-8">
+            <ul className="flex items-center gap-6 font-medium">
+              <Link to="/" className="hover:text-white transition-colors">Home</Link>
+              <Link to="/book/list" className="hover:text-white transition-colors">Add Listing</Link>
+              <Link to="/book/orders" className="hover:text-white transition-colors">View Orders</Link>
             </ul>
           </div>
+
           <button
             type="button"
-            className="text-white bg-green-900 py-2 px-4 rounded-md cursor-pointer font-semibold hover:bg-green-800 transition"
-            onClick={async () => { try { await signOut(); navigate('/login'); } catch (e) { console.error(e); } }}
+            className="rounded-md bg-emerald-600 px-5 py-2 text-sm font-bold text-white transition hover:bg-emerald-500 active:scale-95"
+            onClick={async () => {
+              try { await signOut(); navigate('/login'); }
+              catch (e) { console.error(e); }
+            }}
           >
             Sign Out
           </button>
         </>
-      )
-        :
-        (
-          <>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
-          </>
-        )
-      }
-    </div>
+      ) : (
+        <div className="flex items-center gap-6 font-medium ml-auto">
+          <Link to="/login" className="hover:text-white transition-colors">Login</Link>
+          <Link to="/register" className="rounded-md bg-slate-100 px-4 py-2 text-slate-950 hover:bg-white transition">
+            Register
+          </Link>
+        </div>
+      )}
+    </nav>
   );
 };
 

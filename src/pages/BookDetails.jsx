@@ -30,23 +30,70 @@ const BookDetails = () => {
     }
     if (bookData == null) return <h1 className='text-white'>Loading...</h1>
     return (
-        <div className='max-w-[80%] mt-20 mx-auto text-white flex items-center justify-center gap-24'>
-            <div className=' h-95 w-[45%] overflow-hidden'>
-                <img className='w-full h-full rounded-2xl' src={url} alt="book-image" />
-            </div>
-            <div className='h-95 w-[45%]'>
-                <h1 className='text-3xl font-semibold'>{bookData.name}</h1>
-                <h2 className='text-xl mt-3 mb-1'>Details</h2>
-                <p className='text-sm font-thin'>Price: {bookData.price}</p>
-                <p className='text-sm font-thin'>ISBN Number: {bookData.isbn}</p>
-                <h2 className='text-xl mt-3 mb-1'>Owner Detail</h2>
-                <p className='text-sm font-thin'>Email: {bookData.userEmail}</p>
-                <p className='text-sm font-thin'>Name: {bookData.displayName}</p>
-                <img className='rounded-full h-10 w-10' src={bookData.userPicURL} alt="" />
-                <p className='mt-5'> Qty: <input type="number" value={qty} className='border-none outline-none bg-white text-gray-900 w-15 rounded-md py-1 px-2' onChange={(e) => setQty(Number(e.target.value))} /></p>
-                <button className='border-none outline-none bg-blue-700 py-2 px-4 rounded-md hover:bg-blue-800 transition-colors active:scale-95 mt-8'
-                    onClick={placeOrder}
-                >Buy Now</button>
+        <div className='min-h-screen bg-slate-950 pt-20 pb-12 px-4'>
+            <div className='max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-center gap-12 lg:gap-24'>
+
+                <div className='w-full md:w-1/2 lg:w-[45%] md:sticky md:top-28'>
+                    <div className='flex justify-center bg-slate-900/30 rounded-2xl p-4 border border-slate-800/50 h-96'>
+                        <img
+                            className='max-w-full max-h-[70vh] w-auto h-auto rounded-lg shadow-2xl object-fill'
+                            src={url}
+                            alt={bookData.name}
+                        />
+                    </div>
+                </div>
+
+                <div className='w-full md:w-1/2 lg:w-[45%] text-slate-200'>
+                    <h1 className='text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight'>
+                        {bookData.name}
+                    </h1>
+
+                    <div className='mt-8 p-6 rounded-2xl bg-slate-900/50 border border-slate-800 backdrop-blur-sm'>
+                        <h2 className='text-sm uppercase tracking-widest text-blue-400 font-bold mb-4'>Details</h2>
+                        <div className='space-y-3'>
+                            <div className='flex justify-between'>
+                                <span className='text-slate-400'>Price</span>
+                                <span className='text-2xl font-bold text-emerald-400'>₹{bookData.price}</span>
+                            </div>
+                            <div className='flex justify-between border-t border-slate-800 pt-3'>
+                                <span className='text-slate-400'>ISBN Number</span>
+                                <span className='font-mono text-white'>{bookData.isbn}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className='mt-6 p-6 rounded-2xl bg-slate-900/50 border border-slate-800'>
+                        <h2 className='text-sm uppercase tracking-widest text-blue-400 font-bold mb-4'>Seller Information</h2>
+                        <div className='flex items-center gap-4'>
+                            <img className='rounded-full h-12 w-12 border-2 border-blue-500/20' src={bookData.userPicURL} alt="" />
+                            <div>
+                                <p className='text-lg font-semibold text-white'>{bookData.displayName}</p>
+                                <p className='text-sm text-slate-400'>{bookData.userEmail}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className='mt-10 flex flex-col sm:flex-row items-center gap-6'>
+                        <div className='flex items-center gap-3'>
+                            <span className='text-slate-300 font-medium'>Qty:</span>
+                            <input
+                                type="number"
+                                value={qty}
+                                min="1"
+                                className='bg-slate-900 border border-slate-700 text-white w-20 rounded-xl py-2 px-3 focus:ring-2 focus:ring-blue-500 outline-none transition'
+                                onChange={(e) => setQty(Number(e.target.value))}
+                            />
+                        </div>
+
+                        <button
+                            className='w-full sm:flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-blue-600/20 active:scale-95'
+                            onClick={placeOrder}
+                        >
+                            Buy Now
+                        </button>
+                    </div>
+                </div>
+
             </div>
         </div>
     )

@@ -4,10 +4,9 @@ import { useFireBaseContext } from "../context/FireBaseContext";
 const PrivateRoute = ({ children }) => {
     const { isLoggedIn, loading } = useFireBaseContext();
 
-    if (loading) return <div>Loading...</div>; // or a spinner
+    if (loading) return <div>Loading...</div>;
 
-    // If `children` provided, render that; otherwise use Outlet for nested routes
-    return isLoggedIn ? (children ?? <Outlet />) : <Navigate to="/login" replace />;
+    return isLoggedIn ? (<Outlet />) : <Navigate to="/login" replace />;
 };
 
 export default PrivateRoute;

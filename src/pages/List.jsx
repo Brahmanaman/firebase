@@ -40,60 +40,72 @@ const List = () => {
   }
 
   return (
-    <div className="w-full flex justify-center pt-5">
-      <form className="flex flex-col w-95 text-white p-3">
-        <h1 className="text-center text-2xl">Add Book</h1>
-        <div className="justify-center mt-5">
-          <div className="flex flex-col ">
-            <label htmlFor="name">Name</label>
+    <div className="min-h-screen w-full flex items-center justify-center bg-slate-950 py-12 px-4">
+      <form className="flex flex-col border border-slate-800 bg-slate-900/50 backdrop-blur-md rounded-2xl w-full max-w-lg text-slate-200 p-8 shadow-2xl">
+        <div className="mb-8">
+          <h1 className="text-center text-3xl font-bold text-white tracking-tight">Add New Listing</h1>
+          <p className="text-center text-slate-400 text-sm mt-2">Enter the book details to list it in the library</p>
+        </div>
+
+        <div className="space-y-5">
+
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="name" className="text-sm font-medium text-slate-300 ml-1">Book Title</label>
             <input
-              className="border rounded-sm py-1 px-2 bg-transparent m-2 ml-0 outline-0"
+              className="border border-slate-700 rounded-xl py-2.5 px-4 bg-slate-950/50 text-white placeholder:text-slate-600 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
               required
               type="text"
               name="name"
-              placeholder="enter book name"
+              placeholder="e.g. The Great Gatsby"
               onChange={handleChange}
             />
           </div>
-          <div className="flex flex-col">
-            <label htmlFor="isbn">ISBN</label>
+
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="isbn" className="text-sm font-medium text-slate-300 ml-1">ISBN Number</label>
             <input
-              className="border rounded-sm py-1 px-2 bg-transparent m-2 ml-0 outline-none"
+              className="border border-slate-700 rounded-xl py-2.5 px-4 bg-slate-950/50 text-white placeholder:text-slate-600 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
               required
               type="text"
               name="isbn"
-              placeholder="enter ISBN Number"
+              placeholder="978-3-16-148410-0"
               onChange={handleChange}
             />
           </div>
-          <div className="flex flex-col ">
-            <label htmlFor="price">Price</label>
-            <input
-              className="border rounded-sm py-1 px-2 bg-transparent m-2 ml-0 outline-none"
-              required
-              type="text"
-              name="price"
-              placeholder="enter book price"
-              onChange={handleChange}
-            />
+
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="price" className="text-sm font-medium text-slate-300 ml-1">Price (₹)</label>
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500">₹</span>
+              <input
+                className="w-full border border-slate-700 rounded-xl py-2.5 pl-8 pr-4 bg-slate-950/50 text-white placeholder:text-slate-600 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
+                required
+                type="number"
+                name="price"
+                placeholder="0.00"
+                onChange={handleChange}
+              />
+            </div>
           </div>
-          <div className="flex flex-col ">
-            <label htmlFor="coverPic">Cover Pic</label>
+
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="coverPic" className="text-sm font-medium text-slate-300 ml-1">Cover Image</label>
             <input
-              className="border rounded-sm py-1 px-2 bg-transparent m-2 ml-0 outline-none"
+              className="block w-full text-sm text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-500 transition-all cursor-pointer border border-slate-700 rounded-xl bg-slate-950/50"
               required
               type="file"
               name="coverPic"
               onChange={handleChange}
             />
           </div>
-          <div className="flex justify-center gap-2 mt-5">
+
+          <div className="pt-6">
             <button
               type="submit"
-              className="bg-blue-900 hover:bg-blue-950 transition-colors py-2 px-4 w-auto rounded-md cursor-pointer active:scale-95"
+              className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition-all active:scale-[0.98] shadow-lg shadow-blue-600/20"
               onClick={handleSubmit}
             >
-              Add
+              Add Book to Collection
             </button>
           </div>
         </div>
