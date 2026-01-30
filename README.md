@@ -20,6 +20,10 @@ This repository is now **open for community contributions**.
 ---
 
 ## 📦 Installation
+npm install
+
+## 💻 Start development
+npm start
 
 ### Clone the project
 ```bash
