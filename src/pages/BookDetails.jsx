@@ -48,7 +48,6 @@ const BookDetails = () => {
                     onClick={placeOrder}
                 >Buy Now</button>
             </div>
-
         </div>
     )
 }

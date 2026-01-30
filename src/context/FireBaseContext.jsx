@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set } from "firebase/database";
+import { getDatabase, query, ref, set } from "firebase/database";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -8,8 +8,9 @@ import {
   signInWithPopup,
   signInWithEmailAndPassword,
   onAuthStateChanged,
+  signOut,
 } from "firebase/auth";
-import { getFirestore, collection, addDoc, getDocs, doc, getDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs, doc, getDoc, where } from "firebase/firestore";
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const firebaseConfig = {
@@ -38,15 +39,14 @@ export const useFireBaseContext = () => {
 
 const FireBaseContext = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    onAuthStateChanged(firebaseAuth, (user) => {
-      if (user) {
-        setUser(user);
-      } else {
-        setUser(null);
-      }
+    const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
+      setUser(user ?? null);
+      setLoading(false);
     });
+    return unsubscribe;
   }, []);
 
   const signUpUserWithEmailAndPassword = async (email, password) => {
@@ -65,6 +65,12 @@ const FireBaseContext = ({ children }) => {
   };
 
   const isLoggedIn = user ? true : false;
+
+  const signOutUser = async () => {
+    // sign out via Firebase and allow onAuthStateChanged to update state
+    return await signOut(firebaseAuth);
+  }
+
   const handleCreateNewListing = async (name, isbn, price, file) => {
     //saving image in storage 
     const imageRef = storageRef(storage, `uploads/images/${Date.now()}-${file.name}`)
@@ -97,7 +103,6 @@ const FireBaseContext = ({ children }) => {
     return result;
   }
 
-  console.log(user)
   const placeOrder = async (bookId, qty) => {
     const collectionRef = collection(firestore, "books", bookId, "orders");
     const result = await addDoc(collectionRef, {
@@ -109,9 +114,18 @@ const FireBaseContext = ({ children }) => {
     });
     return result;
   }
+
+  const fetchMyBooks = async () => {
+    if (!user) return null;
+    const collectionRef = collection(firestore, "books");
+    const q = query(collectionRef, where("userId", "==", user.uid));
+    const result = await getDocs(q);
+    return result
+  }
+
   return (
     <FirebaseContext.Provider
-      value={{ signUpUserWithEmailAndPassword, signInUserWithEmailAndPassword, putData, signInWithGoogle, isLoggedIn, handleCreateNewListing, listAllBooks, getImageURL, getBookById, placeOrder }}
+      value={{ signUpUserWithEmailAndPassword, signInUserWithEmailAndPassword, putData, signInWithGoogle, isLoggedIn, user, loading, signOut: signOutUser, handleCreateNewListing, listAllBooks, getImageURL, getBookById, placeOrder, fetchMyBooks }}
     >
       {children}
     </FirebaseContext.Provider>

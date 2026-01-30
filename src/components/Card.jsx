@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useFireBaseContext } from "../context/FireBaseContext"
 import { useNavigate } from 'react-router';
 
-const Card = ({ book }) => {
+const Card = ({ book, link }) => {
     const [url, setURL] = useState(null);
     const firebase = useFireBaseContext();
     const navigate = useNavigate();
@@ -35,7 +35,7 @@ const Card = ({ book }) => {
 
                     <button
                         className="text-xl cursor-pointer mt-4 w-fit px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition active:scale-95"
-                        onClick={(e) => navigate(`/book/view/${book.id}`)}
+                        onClick={(e) => navigate(link)}
                     >
                         View
                     </button>
